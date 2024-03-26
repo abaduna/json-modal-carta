@@ -22,6 +22,7 @@ routerCarta.post("/menu", upload.single("imageUpLoading"), async (req, res) => {
   const origianlNameee = saveiamgeFuncion(req.file);
   const url_imagen = `http://localhost:3001/${origianlNameee}`;
   let { title, price } = req.body;
+  console.log(req.body);
 console.log(req.body);
   try {
     await conection.query(
@@ -36,7 +37,8 @@ console.log(req.body);
 });
 function saveiamgeFuncion(file) {
   console.log(`file ${file}`);
-  const newPath = `./upload/${file.originalname}`;
+  const fechaActualEnMilisegundos = new Date().getTime();
+  const newPath = `./upload/${file.originalname}-${fechaActualEnMilisegundos}`;
   fs.renameSync(file.path, newPath);
   console.log(file);
   let origianlNameee = file.originalname;

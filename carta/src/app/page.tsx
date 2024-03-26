@@ -4,6 +4,7 @@ export interface Menu {
   title: string;
   price: number;
   url_imagen: string;
+  id?:string
 }
 async function getUser(): Promise<Menu[]> {
   //cuadado que queda cacheada

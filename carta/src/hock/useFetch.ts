@@ -8,7 +8,7 @@ export const useFetch = () => {
       const formData = new FormData();
 
       formData.append("title", datos.title);
-      formData.append("price", datos.title);
+      formData.append("price", datos.price);
       formData.append("imageUpLoading", datos.imageUpLoading);
       console.log(formData);
       await API.post("api/menu", formData, {
@@ -21,6 +21,20 @@ export const useFetch = () => {
       console.error(error);
     }
   };
-
-  return { fetchPost };
+  const deletID = async (id: string) => {
+    try {
+      await API.delete(`api/menu/${id}`);
+    } catch (error) {
+      console.log(`algo salio en en  fetchPost`, error);
+    }
+  };
+  const getData = async () => {
+    try {
+      const data = await API.get("api/menu");
+      return data;
+    } catch (error) {
+      console.log(`algo salio en en  getData`, error);
+    }
+  };
+  return { fetchPost, deletID, getData };
 };
