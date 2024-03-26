@@ -1,33 +1,34 @@
-"use client"
+"use client";
 import { useFetch } from "@/hock/useFetch";
 import { ChangeEvent, useState } from "react";
 
 export interface bodyProps {
-  title: string
-  price:string
-  imageUpLoading: string
+  title: string;
+  price: string;
+  imageUpLoading: File | null;
 }
 function Admin() {
   const [title, setTitle] = useState<string>("");
   const [price, setPrice] = useState<string>(""); //imageUpLoading
-  const [imageUpLoading, setImageUpLoading] = useState<string>("");
+  const [imageUpLoading, setImageUpLoading] = useState<File | null>(null);
   const { fetchPost } = useFetch();
   const sendData = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("title",title);
-    console.log("price",price);
-    console.log("imageUpLoading",imageUpLoading);
-    const data = {
+    console.log("title", title);
+    console.log("price", price);
+    console.log("imageUpLoading", imageUpLoading);
+    const data: bodyProps = {
       title,
       price,
       imageUpLoading,
     };
-    fetchPost(data)
-
-  
+    console.log("Data a enviar:", data);
+    fetchPost(data);
   };
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    setImageUpLoading(file as File);
+    console.log(file); // Aquí imprimes el archivo actual
   };
   return (
     <>
@@ -57,9 +58,8 @@ function Admin() {
           <label>Imagen:</label>
           <input
             type="file"
-            name={imageUpLoading}
-            value={imageUpLoading}
-            onChange={(e) => handleImageChange(e)}
+            
+            onChange={handleImageChange}
             required
           />
         </div>
