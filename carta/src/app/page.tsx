@@ -8,12 +8,10 @@ export interface Menu {
 }
 async function getUser(): Promise<Menu[]> {
   //cuadado que queda cacheada
-  let response = await fetch("http://localhost:3001/Api/menu", {
-    method: "GET",
-  });
+  let response = await fetch("http://localhost:3001/api/menu")
 
   let data: Menu[] = await response.json();
-  console.log(data);
+
   return data;
 }
 

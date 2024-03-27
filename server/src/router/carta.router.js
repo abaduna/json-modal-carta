@@ -63,7 +63,22 @@ routerCarta.put("/menu/:id", async (req, res) => {
     res.status(500).json({ error: "Error en la consulta" });
   }
 });
+routerCarta.get("/menu/:id", async (req, res) => {
+  const conection = await database.getConnection();
+  const id = req.params.id;
 
+  try {
+   data = await conection.query(
+      `SELECT * FROM menu
+        WHERE id = ?;`,
+      [id]
+    );
+    res.status(200).json(data);
+  } catch (error) {
+    console.error("Error en la consulta:", error);
+    res.status(500).json({ error: "Error en la consulta" });
+  }
+});
 routerCarta.delete("/menu/:id", async (req, res) => {
   const conection = await database.getConnection();
   const id = req.params.id;
