@@ -69,10 +69,12 @@ routerCarta.post("/menu", upload.single("imageUpLoading"), async (req, res) => {
 function saveiamgeFuncion(file) {
   console.log(`file ${file}`);
   const fechaActualEnMilisegundos = new Date().getTime();
-  const newPath = `./upload/${file.originalname}-${fechaActualEnMilisegundos}`;
+  const nobrecompleto = `${fechaActualEnMilisegundos}${file.originalname}`
+  const newPath = `./upload/${nobrecompleto}`;
+  console.log(newPath);
   fs.renameSync(file.path, newPath);
   console.log(file);
-  let origianlNameee = file.originalname;
+  let origianlNameee = nobrecompleto;
   console.log(origianlNameee);
   return origianlNameee;
 }
@@ -88,7 +90,7 @@ routerCarta.put("/menu/:id", async (req, res) => {
       SET title = ?, price = ?, url_imagen = ?, category = ?
       WHERE id = ?`,
       [title, price, url_imagen, category, id]
-    );;
+    );
     res.status(200).json({ message: "salio bien" });
   } catch (error) {
     console.error("Error en la consulta:", error);

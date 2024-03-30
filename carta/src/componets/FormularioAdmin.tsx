@@ -75,6 +75,7 @@ function FormularioAdmin({ setUpdate, updata }: FormProps) {
           >
             <option value="">Selecciona una categoria</option>
             <option value="hanburgesa">Hamburguesa</option>
+            <option value="botellas">Botellas</option>
           </select>
         </div>
         <button className={styles.btn} type="submit">Enviar</button>

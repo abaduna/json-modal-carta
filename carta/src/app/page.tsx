@@ -3,6 +3,8 @@ import styles from "./page.module.css";
 import { useEffect, useRef, useState } from "react";
 import ComponetFood from "../componets/ComponetFood";
 import { useFetch } from "@/hock/useFetch";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBurger } from "@fortawesome/free-solid-svg-icons";
 export interface Menu {
   title: string;
   price: number;
@@ -67,7 +69,7 @@ export default function Home() {
         
       </form>
       <div>
-        <button className={styles.categoryButton} onClick={handlerCategoryHamburgesa}>Hamburgesa</button>
+        <button className={styles.categoryButton} onClick={handlerCategoryHamburgesa}> <FontAwesomeIcon icon={faBurger } style={{ fontSize: "25px" }} /></button>
       </div>
       
       <div  className={styles.fooditem}>
