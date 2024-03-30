@@ -1,11 +1,19 @@
 import { Menu } from "../app/page";
-
-const ComponetFood = ({ title, price, url_imagen }: Menu) => {
+import syledCompone from "./../app/pageComponet.module.css";
+const ComponetFood = ({ title, price, url_imagen, category }: Menu) => {
   return (
     <>
-      <h1>{title}</h1>
-      <p>{price}</p>
-      <img src={url_imagen} />
+     <div className={syledCompone.fooditem}>
+      
+      <div className={syledCompone.wrapper}>
+        <p className={syledCompone.title}> {title}</p>
+        <p>
+          <span className={syledCompone.price}>{price}$</span> <br />
+          categoria <b>{category}</b>
+        </p>
+        <img src={url_imagen} alt={title}/>
+      </div>
+     </div>
     </>
   );
 };

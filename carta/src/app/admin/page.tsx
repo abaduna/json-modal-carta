@@ -7,13 +7,14 @@ import { revalidatePath } from "next/cache";
 import actionPath from "../../action";
 import FormularioAdmin from "@/componets/FormularioAdmin";
 import { useRouter } from "next/navigation";
-
+import stylesAdmin from "./pageAdmin.module.css"
 export interface bodyProps {
   title: string;
   price: string;
   imageUpLoading: File | string;
   updata?: boolean;
   setUpdate?: any;
+  category: string;
   fetchFoodsData?: () => Promise<void>;
 }
 function Admin() {
@@ -23,21 +24,21 @@ function Admin() {
   const { getData } = useFetch();
 
   useEffect(() => {
-    const verificar =()=>{
-     const user = localStorage.getItem("user")
-     if (user !== "abaduna") {
-      router.push("/login");
-     }
-     const pasword = localStorage.getItem("password")
-     if (pasword !=="1234") {
-      router.push("/login");
-     }
-    }
-    verificar()
+    const verificar = () => {
+      const user = localStorage.getItem("user");
+      if (user !== "abaduna") {
+        router.push("/login");
+      }
+      const pasword = localStorage.getItem("password");
+      if (pasword !== "1234") {
+        router.push("/login");
+      }
+    };
+    verificar();
     const fetchFoodsData = async () => {
       console.log(`fetchFoodsData`);
 
-      const response = await getData();
+      const response = await getData("api/menu");
       if (response) {
         setFoods(response.data);
         console.log(response.data);
@@ -50,15 +51,17 @@ function Admin() {
   return (
     <>
       <FormularioAdmin updata={updata} setUpdate={setUpdate} />
-      {foods?.length > 0 &&
-        foods?.map((food: Menu) => (
-          <ComponentAdminFood
-            key={food.id}
-            updata={updata}
-            setUpdate={setUpdate}
-            {...food}
-          />
-        ))}
+      <div className={stylesAdmin.fooditems}>
+        {foods?.length > 0 &&
+          foods?.map((food: Menu) => (
+            <ComponentAdminFood
+              key={food.id}
+              updata={updata}
+              setUpdate={setUpdate}
+              {...food}
+            />
+          ))}
+      </div>
     </>
   );
 }

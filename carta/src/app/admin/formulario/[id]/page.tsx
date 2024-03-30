@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 
 import { useEffect, useState } from "react";
+import styles from "./pageformulaeio.module.css"
 interface paramsProps {
   params: {
     id: string;
@@ -19,19 +20,20 @@ export interface food {
 const FormAdmin = ({ params }: paramsProps) => {
   const { getDataForid, upDateID } = useFetch();
   const [food, setFood] = useState<food>();
-  const router = useRouter()
+  const [successful, setSuccessful] = useState<boolean>(false);
+  const router = useRouter();
   useEffect(() => {
-    const verificar =()=>{
-      const user = localStorage.getItem("user")
+    const verificar = () => {
+      const user = localStorage.getItem("user");
       if (user !== "abaduna") {
-       router.push("/login");
+        router.push("/login");
       }
-      const pasword = localStorage.getItem("password")
-      if (pasword !=="1234") {
-       router.push("/login");
+      const pasword = localStorage.getItem("password");
+      if (pasword !== "1234") {
+        router.push("/login");
       }
-     }
-     verificar()
+    };
+    verificar();
     const fetchFoodData = async () => {
       const response = await getDataForid(params.id);
       if (response) {
@@ -48,6 +50,10 @@ const FormAdmin = ({ params }: paramsProps) => {
     try {
       upDateID(params.id, food as food);
       actionPath;
+      setSuccessful(true);
+      setTimeout(() => {
+        setSuccessful(false);
+      }, 700);
       router.push("/admin");
     } catch (error) {
       console.log(error);
@@ -67,22 +73,25 @@ const FormAdmin = ({ params }: paramsProps) => {
   };
   return (
     <div>
-      <form onSubmit={updateform}>
+      {successful && <span>Modificacion exitosa</span>}
+      <form onSubmit={updateform} className={styles.formulario}>
         {food && (
           <input
+          className={styles.input}
             value={food.title}
             onChange={(e) => updateTitle(e.target.value)}
           />
         )}
         {food && (
           <input
+          className={styles.input}
             type="number"
             value={food.price}
             onChange={(e) => updatePrice(e.target.value)}
           />
         )}
         {food && <img src={food.url_imagen} alt={food.title} />}
-        <button type="submit">Actualizar</button>
+        <button  className={styles.btn} type="submit">Actualizar</button>
       </form>
     </div>
   );

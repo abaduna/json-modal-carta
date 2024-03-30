@@ -5,7 +5,14 @@ actualizar la cache  check
 recartori de la pagina admin check
 redirect of the formu a admin check
 login check
-mensaje de actualizado correctamente y eliminado
-agregar categorias (la cantidad esta hardcodeadas)
-estilos
+agregar categorias (la cantidad esta hardcodeadas) check
+hacer un buscador input no controlado y uno de categoria check
+agregar en el formulario categorias check
+
+mensaje de actualizado correctamente y eliminado check
+
+estilos check
+404 error check
+agregar font 
 suspense
+renderizado por categoria
