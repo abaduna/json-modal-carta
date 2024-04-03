@@ -15,5 +15,10 @@ estilos check
 404 error check
 agregar font chack
 
-renderizado por categoria
-suspense
+
+renderizado por categoria check
+estilos de categoria check
+suspense preguntar a lisansdro
+
+optativo
+ eliminar tanbien en la carpeta la foto
