@@ -90,7 +90,7 @@ export default function Home() {
         />
       </div>
 
-      <form className={styles.formContainer} onSubmit={handleSerchClick}>
+      <form className={styles.formContainerSerch} onSubmit={handleSerchClick}>
         <input
           placeholder="buscar"
           onChange={(e) => setSerch(e.target.value)}

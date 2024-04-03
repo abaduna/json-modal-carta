@@ -1,6 +1,14 @@
 import syledCompone from "@/app/page.module.css"
 import Skeleton from 'react-loading-skeleton'
-export function SkeletonHome() {
+export function SkeletonHome({
+  title,
+  price,
+  url_imagen,
+  id,
+  setUpdate,
+  updata,
+  category,
+}:any) {
   return (
     <div className={syledCompone.fooditem}>
       

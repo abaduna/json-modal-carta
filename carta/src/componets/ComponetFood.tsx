@@ -1,5 +1,6 @@
 import { Menu } from "../app/page";
 import syledCompone from "./../app/pageComponet.module.css";
+import 'react-loading-skeleton/dist/skeleton.css'
 const ComponetFood = ({ title, price, url_imagen, category }: Menu) => {
   return (
     <>

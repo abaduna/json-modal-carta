@@ -15,7 +15,7 @@
     width: 80%;
   padding: 10px
   }
-  .formContainer {
+  .formContainerSerch {
     width: 100%;
     margin-bottom: 20px;
     display: grid;
@@ -28,12 +28,8 @@
     grid-column: span 4;
     margin:  0 auto;
   }
+
   .searchButton {
-    border: 10px solid black;
-    margin: 0 auto;
-    
-  }
-  .formContainer button {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -46,11 +42,7 @@
     padding: 10px;
   }
   
-  .formContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-  }
+
   
   .fooditem {
     display: grid;
