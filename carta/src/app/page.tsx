@@ -9,12 +9,15 @@ import { faBottleWater } from "@fortawesome/free-solid-svg-icons";
 import { Suspense } from "react";
 import Skeleton from "react-loading-skeleton";
 import { SkeletonHome } from "@/componets/SkeletonHome";
+import ComponetCarrito from "@/componets/ComponetCarrito";
 export interface Menu {
   title: string;
   price: number;
   url_imagen: string;
   id?: string;
   category: string;
+  setCarrito?: Function;
+  removeProduct?: Function
 }
 
 export default function Home() {
@@ -25,7 +28,7 @@ export default function Home() {
   const [hamburger, setHamburger] = useState<Menu[]>([]);
   const [bottle, setBottle] = useState<Menu[]>([]);
   const [show, setShow] = useState<boolean>(false);
-
+  const [carrito, setCarrito] = useState<Menu[]>([]);
   const { getData } = useFetch();
   useEffect(() => {
     const getDataFoods = async () => {
@@ -41,24 +44,22 @@ export default function Home() {
         console.error("Error al obtener datos:", error);
       }
     };
-    
-    
-    
+
     getDataFoods();
   }, [endpoint]);
 
   const handlerCategoryHamburgesa = () => {
     setEndpoint("api/menu?category=hanburgesa");
-    setShow(true)
+    setShow(true);
   };
   const handlerCategoryBottles = () => {
     setEndpoint("api/menu?category=botellas");
-    setShow(true)
+    setShow(true);
   };
 
   const handleSerchClick = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setShow(true)
+    setShow(true);
     setEndpoint(`api/menu/${serch}`);
   };
   useEffect(() => {
@@ -80,6 +81,13 @@ export default function Home() {
     };
     sendCategory();
   }, []);
+  const removeProduct=(product:Menu)=>{
+    
+    setCarrito((prev: Menu[]) =>
+      prev.filter((item: Menu) => item.title !== product.title)
+    );
+  }
+  
   return (
     <div>
       <div className={styles.header}>
@@ -119,15 +127,19 @@ export default function Home() {
           <FontAwesomeIcon icon={faBottleWater} style={{ fontSize: "25px" }} />
         </button>
       </div>
+      <ComponetCarrito carrito={carrito} />
       {show ? (
         <>
           <div className={styles.fooditem}>
             {foods.length > 0 &&
               foods?.map((food: Menu) => (
-                <Suspense key={food.id} fallback={<SkeletonHome/>}>
-                  <ComponetFood key={food.id} {...food}></ComponetFood>
+                <Suspense key={food.id} fallback={<SkeletonHome />}>
+                  <ComponetFood
+                    setCarrito={setCarrito}
+                    removeProduct={removeProduct}
+                    {...food}
+                  ></ComponetFood>
                 </Suspense>
-                
               ))}
           </div>
         </>
@@ -136,24 +148,29 @@ export default function Home() {
           <p className={styles.categoryTitle}>Categoria</p>
           <p className={styles.categoryBottle}>Botellas</p>
           <div className={styles.fooditem}>
-
             {bottle.length > 0 &&
               bottle?.map((food: Menu) => (
-                <Suspense key={food.id} fallback={<SkeletonHome/>}>
-                  <ComponetFood  {...food}></ComponetFood>
+                <Suspense key={food.id} fallback={<SkeletonHome />}>
+                  <ComponetFood
+                    setCarrito={setCarrito}
+                    removeProduct={removeProduct}
+                    {...food}
+                  ></ComponetFood>
                 </Suspense>
-                
               ))}
           </div>
-          <p  className={styles.categoryHanburger}>Hamburgesa </p>
+          <p className={styles.categoryHanburger}>Hamburgesa </p>
           <div className={styles.fooditem}>
-            
             {hamburger.length > 0 &&
               hamburger?.map((food: Menu) => (
-                <Suspense key={food.id} fallback={<SkeletonHome/>}>
-                 <ComponetFood key={food.id} {...food}></ComponetFood> 
+                <Suspense key={food.id} fallback={<SkeletonHome />}>
+                  <ComponetFood
+                    setCarrito={setCarrito}
+                    removeProduct={removeProduct}
+                    key={food.id}
+                    {...food}
+                  ></ComponetFood>
                 </Suspense>
-                
               ))}
           </div>
         </>
