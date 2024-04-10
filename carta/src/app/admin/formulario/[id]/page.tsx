@@ -5,7 +5,8 @@ import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 
 import { useEffect, useState } from "react";
-import styles from "./pageformulaeio.module.css"
+import styles from "./pageformulaeio.module.css";
+import ComponetExtra from "@/componets/ComponetExtra";
 interface paramsProps {
   params: {
     id: string;
@@ -16,11 +17,19 @@ export interface food {
   price?: number;
   title?: string;
   url_imagen?: string;
+  itemid?: number;
+}
+export interface extra {
+  price: number;
+  title: string;
+  id: number;
 }
 const FormAdmin = ({ params }: paramsProps) => {
-  const { getDataForid, upDateID } = useFetch();
+  const { getDataForid, upDateID, getData } = useFetch();
   const [food, setFood] = useState<food>();
   const [successful, setSuccessful] = useState<boolean>(false);
+  const [endpoint, setEndpoint] = useState<string>("/api/extra/");
+  const [extra, setExtra] = useState<extra[]>([]);
   const router = useRouter();
   useEffect(() => {
     const verificar = () => {
@@ -38,13 +47,27 @@ const FormAdmin = ({ params }: paramsProps) => {
       const response = await getDataForid(params.id);
       if (response) {
         setFood(response.data[0]);
-        console.log(response.data);
-        console.log(food);
       }
     };
 
     fetchFoodData();
   }, []);
+  useEffect(() => {
+    const fetchExtraFood = async () => {
+      const itemid = food ? food.itemid : "";
+      console.log(itemid);
+
+      setEndpoint(`/api/extra/${itemid}`);
+      console.log(endpoint);
+
+      const result = await getData(endpoint);
+      console.log(result);
+      if (result) {
+        setExtra(result.data);
+      }
+    };
+    fetchExtraFood();
+  }, [food]);
   const updateform = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -77,22 +100,27 @@ const FormAdmin = ({ params }: paramsProps) => {
       <form onSubmit={updateform} className={styles.formulario}>
         {food && (
           <input
-          className={styles.input}
+            className={styles.input}
             value={food.title}
             onChange={(e) => updateTitle(e.target.value)}
           />
         )}
         {food && (
           <input
-          className={styles.input}
+            className={styles.input}
             type="number"
             value={food.price}
             onChange={(e) => updatePrice(e.target.value)}
           />
         )}
         {food && <img src={food.url_imagen} alt={food.title} />}
-        <button  className={styles.btn} type="submit">Actualizar</button>
+        
+        <button className={styles.btn} type="submit">
+          Actualizar
+        </button>
       </form>
+      {extra.length > 0 &&
+          extra.map((ext, index) => <ComponetExtra key={index} {...ext} />)}
     </div>
   );
 };

@@ -5,7 +5,9 @@ interface ComponetCarritoProps {
 }
 const formattedPhoneNumber = 5493413592493;
 function ComponetCarrito({ carrito }: ComponetCarritoProps) {
-    const total: number = carrito.reduce((acc, producto) => acc + parseFloat(String(producto.price)), 0);
+  console.log(carrito);
+  
+    const total: number = carrito.reduce((acc, producto:any) => acc + parseFloat(String(producto.select)), 0);
   
 
   const titulos = carrito.map(producto => producto.title);

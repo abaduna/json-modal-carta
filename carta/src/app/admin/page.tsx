@@ -5,7 +5,7 @@ import { Menu } from "../page";
 import ComponentAdminFood from "@/componets/ComponentAdminFood";
 import { revalidatePath } from "next/cache";
 import actionPath from "../../action";
-import FormularioAdmin from "@/componets/FormularioAdmin";
+import FormularioAdmin, { extra } from "@/componets/FormularioAdmin";
 import { useRouter } from "next/navigation";
 import stylesAdmin from "./pageAdmin.module.css"
 export interface bodyProps {
@@ -16,6 +16,7 @@ export interface bodyProps {
   setUpdate?: any;
   category: string;
   fetchFoodsData?: () => Promise<void>;
+  extra:extra[]
 }
 function Admin() {
   const [foods, setFoods] = useState([]);

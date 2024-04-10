@@ -52,30 +52,43 @@ routerCarta.post("/menu", upload.single("imageUpLoading"), async (req, res) => {
   const conection = await database.getConnection();
   const origianlNameee = saveiamgeFuncion(req.file);
   const url_imagen = `http://localhost:3001/${origianlNameee}`;
+  const itemid = new Date().getTime();
   let { title, price, category } = req.body;
-  console.log(req.body);
-  console.log(req.body);
   try {
+    console.log("req.body.extra:", req.body.extra);
+    const menuItems = JSON.parse(req.body.extra);
+    console.log("menuItems:", menuItems);;
+
     await conection.query(
-      `INSERT INTO menu (  title, price, url_imagen,category ) VALUES (?,?,?,?);`,
-      [title, price, url_imagen, category]
+      `INSERT INTO menu (  title, price, url_imagen,category,itemid ) VALUES (?,?,?,?,?);`,
+      [title, price, url_imagen, category, itemid]
     );
-    res.status(200).json({ message: "salio bien" });
+    try {
+      for (let i = 0; i < menuItems.length; i++) {
+        console.log("menuItem[i]:", menuItems[i]);
+        let { title, price } = menuItems[i];
+        await conection.query(
+          `INSERT INTO extraProducto (  title, price ,usuario ) VALUES (?,?,?);`,
+          [title, price, itemid]
+        );
+      }
+      res.status(200).json({ message: "salio bien extraProducto y menu" });
+    } catch (error) {
+      console.error("Error en la consulta:", error);
+      res.status(500).json({ error: "Error en la consulta extraProducto" });
+    }
   } catch (error) {
     console.error("Error en la consulta:", error);
     res.status(500).json({ error: "Error en la consulta" });
   }
 });
 function saveiamgeFuncion(file) {
-  console.log(`file ${file}`);
   const fechaActualEnMilisegundos = new Date().getTime();
-  const nobrecompleto = `${fechaActualEnMilisegundos}${file.originalname}`
+  const nobrecompleto = `${fechaActualEnMilisegundos}${file.originalname}`;
   const newPath = `./upload/${nobrecompleto}`;
   console.log(newPath);
   fs.renameSync(file.path, newPath);
-  console.log(file);
   let origianlNameee = nobrecompleto;
-  console.log(origianlNameee);
   return origianlNameee;
 }
 routerCarta.put("/menu/:id", async (req, res) => {

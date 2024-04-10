@@ -1,24 +1,3 @@
 tareas
 
-
-actualizar la cache  check
-recartori de la pagina admin check
-redirect of the formu a admin check
-login check
-agregar categorias (la cantidad esta hardcodeadas) check
-hacer un buscador input no controlado y uno de categoria check
-agregar en el formulario categorias check
-
-mensaje de actualizado correctamente y eliminado check
-
-estilos check
-404 error check
-agregar font chack
-
-
-renderizado por categoria check
-estilos de categoria check
-suspense preguntar a lisansdro
-
-optativo
- eliminar tanbien en la carpeta la foto
+pasar de un useEffect a algo que se ejecute cuando abris el modal

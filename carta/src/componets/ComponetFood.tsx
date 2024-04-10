@@ -1,14 +1,23 @@
 "use client";
+import dynamic from "next/dynamic";
 import { Menu } from "../app/page";
 import syledCompone from "./../app/pageComponet.module.css";
 import "react-loading-skeleton/dist/skeleton.css";
+const ModalHome = dynamic(() => import("./modalHome.module"))
+
+export interface extraCarrito {
+  title:string
+  price:number
+}
 const ComponetFood = ({
   title,
   price,
   url_imagen,
   category,
   setCarrito = ()=>{},
-  removeProduct =()=>{}
+  removeProduct =()=>{},
+  itemid
+
 }: Menu) => {
   const product = {
     title,
@@ -29,7 +38,7 @@ const ComponetFood = ({
           </p>
           <img src={url_imagen} alt={title} />
         </div>
-        <button onClick={() => setCarrito((prev: any) => [...prev, product])} className={syledCompone.addButton}>Agregar</button>
+        <ModalHome title={title} price={price} itemid={itemid} setCarrito={setCarrito}/>
         <button onClick={()=>removeProduct(product)} className={syledCompone.removeButton}>Quitar</button>
       </div>
     </>

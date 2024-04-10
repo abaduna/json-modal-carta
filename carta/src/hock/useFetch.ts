@@ -2,6 +2,7 @@ import { API } from "@/API";
 import { food } from "@/app/admin/formulario/[id]/page";
 import { bodyProps } from "@/app/admin/page";
 import { Menu } from "@/app/page";
+import { extra } from "@/componets/FormularioAdmin";
 export const useFetch = () => {
   const fetchPost = async (datos: bodyProps) => {
     try {
@@ -11,6 +12,8 @@ export const useFetch = () => {
       formData.append("price", datos.price);
       formData.append("imageUpLoading", datos.imageUpLoading);
       formData.append("category", datos.category);
+      formData.append("extra", JSON.stringify(datos.extra));
+
       await API.post("api/menu", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -28,7 +31,7 @@ export const useFetch = () => {
       console.log(`algo salio en en  fetchPost`, error);
     }
   };
-  const getData = async (endpoint:string) => {
+  const getData = async (endpoint: string) => {
     try {
       const data = await API.get(endpoint);
       return data;
@@ -40,7 +43,7 @@ export const useFetch = () => {
     try {
       const data = await API.get(`api/menuporid/${id}`);
       console.log(data);
-      
+
       return data;
     } catch (error) {
       console.log(`algo salio en en  getDataForid`, error);
@@ -54,5 +57,12 @@ export const useFetch = () => {
       console.log(`algo salio en en  getDataForid`, error);
     }
   };
-  return { fetchPost, deletID, getData, getDataForid, upDateID };
+  const upDateExtra = async (endpoint: string, extra: extra) => {
+    try {
+      await API.put(endpoint, extra);
+    } catch (error) {
+      console.log(`algo salio en en  upDateExtra`, error);
+    }
+  };
+  return { fetchPost, deletID, getData, getDataForid, upDateID, upDateExtra };
 };

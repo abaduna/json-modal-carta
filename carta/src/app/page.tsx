@@ -13,11 +13,12 @@ import ComponetCarrito from "@/componets/ComponetCarrito";
 export interface Menu {
   title: string;
   price: number;
-  url_imagen: string;
+  url_imagen?: string;
   id?: string;
-  category: string;
+  category?: string;
   setCarrito?: Function;
   removeProduct?: Function
+  itemid?:number
 }
 
 export default function Home() {
@@ -75,6 +76,8 @@ export default function Home() {
       if (typeof hamburger !== "undefined") {
         setHamburger(hamburger.data);
         console.log(hamburger.data);
+        console.log(hamburger);
+        
       } else {
         console.log(`undefind`);
       }
