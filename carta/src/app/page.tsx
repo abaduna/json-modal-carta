@@ -1,15 +1,18 @@
 "use client";
 import styles from "./page.module.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState ,Suspense} from "react";
 import ComponetFood from "../componets/ComponetFood";
 import { useFetch } from "@/hock/useFetch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBurger } from "@fortawesome/free-solid-svg-icons";
+import { faBurger,faBan } from "@fortawesome/free-solid-svg-icons";
 import { faBottleWater } from "@fortawesome/free-solid-svg-icons";
-import { Suspense } from "react";
+
 import Skeleton from "react-loading-skeleton";
 import { SkeletonHome } from "@/componets/SkeletonHome";
 import ComponetCarrito from "@/componets/ComponetCarrito";
+import { projects } from "./../config/menu.json";
+import { hambuergessas } from "../config/hambuergessas.json";
+import { botellas } from "../config/botellas.json";
 export interface Menu {
   title: string;
   price: number;
@@ -31,16 +34,14 @@ export default function Home() {
   const [show, setShow] = useState<boolean>(false);
   const [carrito, setCarrito] = useState<Menu[]>([]);
   const { getData } = useFetch();
+  const projectWithId1 = projects.find((project) => project.itemid === 1);
+     console.error(projectWithId1);
   useEffect(() => {
     const getDataFoods = async () => {
       try {
-        const foods = await getData(endpoint);
-        if (typeof foods !== "undefined") {
-          setFoods(foods.data);
-          console.log(foods.data);
-        } else {
-          console.log(`undefind`);
-        }
+        setFoods(projects as any);
+        console.log(projects);
+        
       } catch (error) {
         console.error("Error al obtener datos:", error);
       }
@@ -50,14 +51,18 @@ export default function Home() {
   }, [endpoint]);
 
   const handlerCategoryHamburgesa = () => {
-    setEndpoint("api/menu?category=hanburgesa");
+    setFoods(hambuergessas as any);
     setShow(true);
   };
   const handlerCategoryBottles = () => {
-    setEndpoint("api/menu?category=botellas");
+    setFoods(botellas as any);
     setShow(true);
   };
+  const handlerCategoryCancelar = () => {
+    console.log(`click`);
 
+    setShow(false);
+  };
   const handleSerchClick = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setShow(true);
@@ -66,21 +71,9 @@ export default function Home() {
   useEffect(() => {
     const sendCategory = async () => {
       const bottle = await getData("api/menu?category=botellas");
-      if (typeof bottle !== "undefined") {
-        setBottle(bottle.data);
-        console.log(bottle.data);
-      } else {
-        console.log(`undefind`);
-      }
+      setBottle(botellas as any);
       const hamburger = await getData("api/menu?category=hanburgesa");
-      if (typeof hamburger !== "undefined") {
-        setHamburger(hamburger.data);
-        console.log(hamburger.data);
-        console.log(hamburger);
-        
-      } else {
-        console.log(`undefind`);
-      }
+      setHamburger(hambuergessas as any);
     };
     sendCategory();
   }, []);
@@ -129,6 +122,17 @@ export default function Home() {
           {" "}
           <FontAwesomeIcon icon={faBottleWater} style={{ fontSize: "25px" }} />
         </button>
+        {show && (
+          <button
+            className={styles.categoryButton}
+            onClick={handlerCategoryCancelar}
+          >
+            <FontAwesomeIcon
+              icon={faBan}
+              style={{ fontSize: "25px", borderRadius: "50px" }}
+            />
+          </button>
+        )}
       </div>
       <ComponetCarrito carrito={carrito} />
       {show ? (

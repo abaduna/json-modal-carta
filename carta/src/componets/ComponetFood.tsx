@@ -3,7 +3,8 @@ import dynamic from "next/dynamic";
 import { Menu } from "../app/page";
 import syledCompone from "./../app/pageComponet.module.css";
 import "react-loading-skeleton/dist/skeleton.css";
-const ModalHome = dynamic(() => import("./modalHome.module"))
+import {projects} from "../config/menu.json"
+const ModalHome = dynamic(() => import("./modalHome"))
 
 export interface extraCarrito {
   title:string
@@ -16,7 +17,8 @@ const ComponetFood = ({
   category,
   setCarrito = ()=>{},
   removeProduct =()=>{},
-  itemid
+  itemid,
+  id
 
 }: Menu) => {
   const product = {
@@ -24,7 +26,9 @@ const ComponetFood = ({
     price,
 
   };
-  console.log(url_imagen)
+  const projectWithId1 = projects.find((project) => project.itemid === itemid);
+     console.error(projectWithId1);
+  
   return (
    
    
@@ -38,7 +42,7 @@ const ComponetFood = ({
           </p>
           <img src={url_imagen} alt={title} />
         </div>
-        <ModalHome title={title} price={price} itemid={itemid} setCarrito={setCarrito}/>
+        <ModalHome title={title} price={price} id={id} itemid={itemid} setCarrito={setCarrito}/>
         <button onClick={()=>removeProduct(product)} className={syledCompone.removeButton}>Quitar</button>
       </div>
     </>
